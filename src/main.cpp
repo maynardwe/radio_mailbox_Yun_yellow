@@ -1,14 +1,13 @@
 //WORKING TEXT CODE
-
 #include <Arduino.h> //must be added?
+#include <Radiohead>
 #include <Bridge.h>
 #include <Temboo.h>
-// #include <Radiohead>
 #include "TembooAccount.h" // contains Temboo account information
 #include <SoftwareSerial.h>
 
 int numRuns = 1;   // Execution count, so this doesn't run forever
-int maxRuns = 5;   // Maximum number of times the Choreo should be executed
+int maxRuns = 1;   // Maximum number of times the Choreo should be executed
 int trigPin = 2;
 int echoPin = 4;
 long duration, cm, inches;
@@ -35,9 +34,9 @@ void loop() {
   duration = pulseIn(echoPin, HIGH);
 
   inches = (duration / 2) / 74;
-  Serial.println(".....");
+  //Serial.println(".....");
   if (inches < 20 || inches > 500) {
-  Serial.println("Intruder Detected!");
+  Serial.println("wem test1");
   Serial.println("Sending text Notification...");
 
   if (numRuns <= maxRuns) {
@@ -55,9 +54,9 @@ void loop() {
     
     // Set Choreo inputs
     SendSMSChoreo.addInput("AuthToken", TWILIO_AUTH_TOKEN); //  AUTH TOKEN 
-    SendSMSChoreo.addInput("To", TWILIO_TO); // cell number that your want the text to go to 
-    SendSMSChoreo.addInput("From", TWILIO_FROM); // Twilio phone number 
-    SendSMSChoreo.addInput("Body", "Intruder Detected2!!!!!"); // Message
+    SendSMSChoreo.addInput("To", TWILIO_PHONE_TO_WILL); // cell number that your want the text to go to 
+    SendSMSChoreo.addInput("From", TWILIO_PHONE_FROM); // Twilio phone number 
+    SendSMSChoreo.addInput("Body", "You got mail!"); // Message
     SendSMSChoreo.addInput("AccountSID", TWILIO_ACCOUNT_SID); // Account SID
     
     // Identify the Choreo to run
