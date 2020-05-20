@@ -1,6 +1,5 @@
 //WORKING TEXT CODE
 #include <Arduino.h> //must be added?
-#include <Radiohead>
 #include <Bridge.h>
 #include <Temboo.h>
 #include "TembooAccount.h" // contains Temboo account information
