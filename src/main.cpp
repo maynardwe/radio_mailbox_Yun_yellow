@@ -5,38 +5,46 @@
 #include "TembooAccount.h" // contains Temboo account information
 #include <SoftwareSerial.h>
 
+const int LDR = 0;
+float oldrate, ratio, rate;
+bool gotMail = false;
+#define YELLOW 5
+
 int numRuns = 1;   // Execution count, so this doesn't run forever
 int maxRuns = 1;   // Maximum number of times the Choreo should be executed
-int trigPin = 2;
-int echoPin = 4;
-long duration, cm, inches;
 
 void setup() {
-  Serial.begin(9600);
-  pinMode(trigPin, OUTPUT);
-  pinMode(echoPin, INPUT);
+  Bridge.begin(); 
+  Serial.begin(9600); 
+  pinMode(LDR, INPUT);
+  pinMode(YELLOW, OUTPUT);
   // For debugging, wait until the serial console is connected
-  delay(5000);
-  Bridge.begin();
-  Serial.println("Patrol Mode Initiated...");
+  //delay(5000);
+  rate = analogRead(LDR);
+  Serial.println("Awaiting mailbox open...");
 }
 
 void loop() {
-
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(1);
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(2);
-  digitalWrite(trigPin, LOW);
-
-  pinMode(echoPin, INPUT);
-  duration = pulseIn(echoPin, HIGH);
-
-  inches = (duration / 2) / 74;
-  //Serial.println(".....");
-  if (inches < 20 || inches > 500) {
-  Serial.println("wem test1");
+  if (gotMail) {
+  Serial.println("wem test2");
   Serial.println("Sending text Notification...");
+
+  oldrate = rate;
+  rate = analogRead(LDR);
+  Serial.print("rate = ");
+  Serial.print(rate);
+  Serial.print(" ratio new to old rate = ");
+
+  ratio = rate/oldrate;
+  Serial.println(ratio);
+
+  if (ratio > 1.5) {
+    digitalWrite(YELLOW,HIGH);
+        gotMail = true; 
+  }
+  else {
+    digitalWrite(YELLOW,LOW);
+  }
 
   if (numRuns <= maxRuns) {
     Serial.println("Running SendSMS - Run #" + String(numRuns++));
@@ -74,7 +82,7 @@ void loop() {
   Serial.println("Waiting...");
   delay(10000); // wait 10 seconds between SendSMS calls
   
-  Serial.println("Patrol Mode Initiated...");
+  Serial.println("Awaiting mailbox open 2...");
   
   }//end if statement 
   
