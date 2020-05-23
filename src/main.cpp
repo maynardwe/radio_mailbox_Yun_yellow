@@ -85,7 +85,7 @@ void loop()
     }
 
     Serial.println("Waiting...");
-    delay(10000); // wait 10 seconds between SendSMS calls
+    delay(20000); // wait 20 seconds between SendSMS calls
 
     Serial.println("Awaiting mailbox open 3...");
     digitalWrite(YELLOW, LOW);
