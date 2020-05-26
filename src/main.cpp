@@ -11,7 +11,7 @@ bool gotMail = false;
 const int YELLOW = 5;
 
 int numRuns = 1; // Execution count, so this doesn't run forever
-int maxRuns = 1; // Maximum number of times the Choreo should be executed
+int maxRuns = 10; // Maximum number of times the Choreo should be executed
 
 void setup()
 {
@@ -85,7 +85,7 @@ void loop()
     }
 
     Serial.println("Waiting...");
-    delay(20000); // wait 20 seconds between SendSMS calls
+    delay(600000); // wait 600 seconds between SendSMS calls
 
     Serial.println("Awaiting mailbox open 3...");
     digitalWrite(YELLOW, LOW);
