@@ -29,14 +29,16 @@ void loop()
 {
   oldrate = rate;
   rate = analogRead(LDR);
+
   Serial.print("rate = ");
   Serial.print(rate);
   Serial.print(" old rate = ");
   Serial.print(oldrate);
   Serial.print(" ratio new to old rate = ");
+ 
 
   ratio = rate / oldrate;
-  Serial.println(ratio);
+ Serial.println(ratio);
   delay(1000);
 
   if (ratio > 1.2)
