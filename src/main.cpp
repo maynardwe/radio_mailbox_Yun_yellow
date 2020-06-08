@@ -8,9 +8,9 @@
 const int LDR = 0;
 float oldrate, ratio, rate;
 bool gotMail = false;
-const int YELLOW = 5;
+const int GREEN = 5;
 
-int numRuns = 1; // Execution count, so this doesn't run forever
+int numRuns = 1;  // Execution count, so this doesn't run forever
 int maxRuns = 10; // Maximum number of times the Choreo should be executed
 
 void setup()
@@ -18,7 +18,7 @@ void setup()
   Bridge.begin();
   Serial.begin(9600);
   pinMode(LDR, INPUT);
-  pinMode(YELLOW, OUTPUT);
+  pinMode(GREEN, OUTPUT);
   // For debugging, wait until the serial console is connected
   //delay(5000);
   rate = analogRead(LDR);
@@ -29,21 +29,18 @@ void loop()
 {
   oldrate = rate;
   rate = analogRead(LDR);
-
   Serial.print("rate = ");
   Serial.print(rate);
   Serial.print(" old rate = ");
   Serial.print(oldrate);
   Serial.print(" ratio new to old rate = ");
- 
-
   ratio = rate / oldrate;
- Serial.println(ratio);
+  Serial.println(ratio);
   delay(1000);
 
   if (ratio > 1.2)
   {
-    digitalWrite(YELLOW, HIGH);
+    digitalWrite(GREEN, HIGH);
     gotMail = true;
   }
 
@@ -69,7 +66,7 @@ void loop()
       SendSMSChoreo.addInput("AuthToken", TWILIO_AUTH_TOKEN);   //  AUTH TOKEN
       SendSMSChoreo.addInput("To", TWILIO_PHONE_TO_WILL);       // cell number that your want the text to go to
       SendSMSChoreo.addInput("From", TWILIO_PHONE_FROM);        // Twilio phone number
-      SendSMSChoreo.addInput("Body", "You got mail 2!");          // Message
+      SendSMSChoreo.addInput("Body", "You got mail 2!");        // Message
       SendSMSChoreo.addInput("AccountSID", TWILIO_ACCOUNT_SID); // Account SID
 
       // Identify the Choreo to run
@@ -90,7 +87,7 @@ void loop()
     delay(600000); // wait 600 seconds between SendSMS calls
 
     Serial.println("Awaiting mailbox open 3...");
-    digitalWrite(YELLOW, LOW);
+    digitalWrite(GREEN, LOW);
     gotMail = false;
 
   } //end if statement
