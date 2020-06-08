@@ -29,7 +29,7 @@ void loop()
 {
   oldrate = rate;
   rate = analogRead(LDR);
-  Serial.println("rate = " + String(rate) + " old rate = " + String(oldrate) + " ratio new to old rate = " + String(ratio = rate / oldrate));
+  Serial.println("rate = " + String(rate) + " old rate = " + String(oldrate) + " ratio = " + String(ratio = rate / oldrate));
   delay(1000);
 
   if (ratio > 1.2)
@@ -84,6 +84,8 @@ void loop()
     delay(20000);
     Serial.println("Awaiting mailbox open...");
     digitalWrite(GREEN, LOW);
+    rate = analogRead(LDR);
+    oldrate = rate;
 
   } //end if (gotmail) statement
 
