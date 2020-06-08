@@ -29,13 +29,7 @@ void loop()
 {
   oldrate = rate;
   rate = analogRead(LDR);
-  Serial.print("rate = ");
-  Serial.print(rate);
-  Serial.print(" old rate = ");
-  Serial.print(oldrate);
-  Serial.print(" ratio new to old rate = ");
-  ratio = rate / oldrate;
-  Serial.println(ratio);
+  Serial.println("rate = " + String(rate) + " old rate = " + String(oldrate) + " ratio new to old rate = " + String(ratio = rate / oldrate));
   delay(1000);
 
   if (ratio > 1.2)
@@ -43,14 +37,17 @@ void loop()
     digitalWrite(GREEN, HIGH);
     gotMail = true;
   }
+  else
+  {
+    gotMail = false;
+  }
 
   if (gotMail)
   {
-    Serial.println("wem test2");
-    Serial.println("Sending text Notification...");
+
     if (numRuns <= maxRuns)
     {
-      Serial.println("Running SendSMS - Run #" + String(numRuns++));
+      Serial.println("Sending Text - Running SendSMS - Run #" + String(numRuns++));
 
       TembooChoreo SendSMSChoreo;
 
@@ -66,7 +63,7 @@ void loop()
       SendSMSChoreo.addInput("AuthToken", TWILIO_AUTH_TOKEN);   //  AUTH TOKEN
       SendSMSChoreo.addInput("To", TWILIO_PHONE_TO_WILL);       // cell number that your want the text to go to
       SendSMSChoreo.addInput("From", TWILIO_PHONE_FROM);        // Twilio phone number
-      SendSMSChoreo.addInput("Body", "You got mail 2!");        // Message
+      SendSMSChoreo.addInput("Body", "You've got mail!");       // Message
       SendSMSChoreo.addInput("AccountSID", TWILIO_ACCOUNT_SID); // Account SID
 
       // Identify the Choreo to run
@@ -83,13 +80,11 @@ void loop()
       SendSMSChoreo.close();
     }
 
-    Serial.println("Waiting...");
-    delay(20000); // wait 20 seconds between SendSMS calls
-
-    Serial.println("Awaiting mailbox open 3...");
+    Serial.println("Waiting 20 seconds");
+    delay(20000);
+    Serial.println("Awaiting mailbox open...");
     digitalWrite(GREEN, LOW);
-    gotMail = false;
 
-  } //end if statement
+  } //end if (gotmail) statement
 
 } //ends loop
