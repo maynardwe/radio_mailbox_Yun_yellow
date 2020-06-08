@@ -72,10 +72,10 @@ void loop()
       // Run the Choreo; when results are available, print them to serial
       SendSMSChoreo.run();
 
-      while (SendSMSChoreo.available())
+     while (SendSMSChoreo.available())
       {
         char c = SendSMSChoreo.read();
-        Serial.print(c);
+        //Serial.print(c);
       }
       SendSMSChoreo.close();
     }
