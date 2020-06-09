@@ -30,7 +30,7 @@ void send_text(String phone_to)
   SendSMSChoreo.addInput("AuthToken", TWILIO_AUTH_TOKEN);   //  AUTH TOKEN
   SendSMSChoreo.addInput("To", phone_to);                   // cell number that your want the text to go to
   SendSMSChoreo.addInput("From", TWILIO_PHONE_FROM);        // Twilio phone number
-  SendSMSChoreo.addInput("Body", "You've got mail!");       // Message
+  SendSMSChoreo.addInput("Body", "#" + String(numRuns) + " rate = " + String(rate) + " old rate = " + String(oldrate) + " ratio = " + String(ratio) );       // Message
   SendSMSChoreo.addInput("AccountSID", TWILIO_ACCOUNT_SID); // Account SID
 
   // Identify the Choreo to run
