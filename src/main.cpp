@@ -6,7 +6,7 @@
 #include <SoftwareSerial.h>
 
 const int LDR = 0;
-float oldrate, ratio, rate;
+float rate;
 bool gotMail = false;
 const int GREEN = 5;
 
@@ -30,7 +30,7 @@ void send_text(String phone_to)
   SendSMSChoreo.addInput("AuthToken", TWILIO_AUTH_TOKEN);   //  AUTH TOKEN
   SendSMSChoreo.addInput("To", phone_to);                   // cell number that your want the text to go to
   SendSMSChoreo.addInput("From", TWILIO_PHONE_FROM);        // Twilio phone number
-  SendSMSChoreo.addInput("Body", "#" + String(numRuns) + " rate = " + String(rate) + " old rate = " + String(oldrate) + " ratio = " + String(ratio) );       // Message
+  SendSMSChoreo.addInput("Body", "#" + String(numRuns) + " rate = " + String(rate));       // Message
   SendSMSChoreo.addInput("AccountSID", TWILIO_ACCOUNT_SID); // Account SID
 
   // Identify the Choreo to run
@@ -61,12 +61,11 @@ void setup()
 
 void loop()
 {
-  oldrate = rate;
   rate = analogRead(LDR);
-  Serial.println("rate = " + String(rate) + " old rate = " + String(oldrate) + " ratio = " + String(ratio = rate / oldrate));
+  Serial.println("rate = " + String(rate));
   delay(1000);
 
-  if (ratio > 1.2)
+  if (rate > 400)
   {
     digitalWrite(GREEN, HIGH);
     gotMail = true;
@@ -90,7 +89,6 @@ void loop()
     Serial.println("Awaiting mailbox open...");
     digitalWrite(GREEN, LOW);
     rate = analogRead(LDR);
-    oldrate = rate;
 
   } //end if (gotmail) statement
 
