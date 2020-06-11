@@ -9,6 +9,7 @@ const int LDR = 0;
 float rate;
 bool gotMail = false;
 const int GREEN = 5;
+const int MailBoxGreen = 12;
 
 int numRuns = 1;  // Execution count, so this doesn't run forever
 int maxRuns = 10; // Maximum number of times the Choreo should be executed
@@ -53,19 +54,22 @@ void setup()
   Serial.begin(9600);
   pinMode(LDR, INPUT);
   pinMode(GREEN, OUTPUT);
+  pinMode(MailBoxGreen, INPUT);
   // For debugging, wait until the serial console is connected
   //delay(5000);
-  rate = analogRead(LDR);
+  //rate = analogRead(LDR);
   Serial.println("Awaiting mailbox open...");
 }
 
 void loop()
 {
-  rate = analogRead(LDR);
-  Serial.println("rate = " + String(rate));
+  //rate = analogRead(LDR);
+  //Serial.println("rate = " + String(rate));
+  Serial.println("Awaiting mailbox open...");
   delay(1000);
 
-  if (rate > 400)
+  //if (rate > 400)
+  if (digitalRead(MailBoxGreen) == HIGH)
   {
     digitalWrite(GREEN, HIGH);
     gotMail = true;
@@ -88,7 +92,7 @@ void loop()
     delay(20000);
     Serial.println("Awaiting mailbox open...");
     digitalWrite(GREEN, LOW);
-    rate = analogRead(LDR);
+    //rate = analogRead(LDR);
 
   } //end if (gotmail) statement
 
